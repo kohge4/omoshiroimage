@@ -3,31 +3,35 @@ package main
 import (
 	"context"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"text/template"
 	"time"
 
 	"github.com/chromedp/chromedp"
 	"github.com/gorilla/mux"
+
+	"omoshiroimg/web"
 )
 
 func main() {
-	//var templates = make(map[string]*template.Template)
-	//templates["index"] = loadTemplate("index")
+
+	var templates = make(map[string]*template.Template)
+	templates["card"] = loadTemplate("card")
+	templates["selfintroduction"] = loadTemplate("selfintroduction")
 	//infra.NewElasticSearchClient()
+	handler := web.NewHandler(templates)
 
 	r := mux.NewRouter().StrictSlash(true)
 	r.Use(loggingMiddleware)
-
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/"))))
+	r.HandleFunc("/", handler.IndexPage)
+	r.HandleFunc("/me", handler.SelfIntroduction)
 
-	//http.HandleFunc("/",)
-	r.HandleFunc("/", handler)
 	srv := &http.Server{
 		Handler: r,
 		Addr:    ":8080",
@@ -35,6 +39,7 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
 	go func() {
 		log.Fatal(srv.ListenAndServe())
 	}()
@@ -51,46 +56,11 @@ func main() {
 	return
 }
 
-func htmlHandler(name string) func(w http.ResponseWriter, r *http.Request) {
-	temp := fmt.Sprintf("ogpgen/template/%s.html", name)
-	return func(w http.ResponseWriter, r *http.Request) {
-		t, err := template.ParseFiles(
-			temp,
-		)
-		if err != nil {
-			log.Fatalf("template error: %v", err)
-		}
-		if err := t.Execute(w, struct {
-			Text string
-		}{
-			Text: "hoge",
-		}); err != nil {
-			log.Printf("failed to execute template: %v", err)
-		}
-	}
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles(
-		"ogpgen/template/three.html",
-	)
-	if err != nil {
-		log.Fatalf("template error: %v", err)
-	}
-	if err := t.Execute(w, struct {
-		Text string
-	}{
-		Text: "hoge",
-	}); err != nil {
-		log.Printf("failed to execute template: %v", err)
-	}
-}
-
 func loadTemplate(name string) *template.Template {
 	t, err := template.ParseFiles(
-		"static/template/"+name+".html",
-		"static/template/_header.html",
-		"static/template/_footer.html",
+		"assets/template/"+name+".html",
+		"assets/template/_header.html",
+		"assets/template/_footer.html",
 	)
 	if err != nil {
 		log.Fatalf("template error: %v", err)
@@ -124,7 +94,7 @@ func ScreenShot(sigCh chan os.Signal) {
 	//if err := chromedp.Run(ctx, elementScreenshot(`https://pkg.go.dev/`, `img.Homepage-logo`, &buf)); err != nil {
 
 	name := fmt.Sprintf("%s", time.Now())
-	if err := chromedp.Run(ctx, elementScreenshot(`http://localhost:8080`, `canvas`, &buf)); err != nil {
+	if err := chromedp.Run(ctx, elementScreenshot(`http://localhost:8080/me`, `div.target`, &buf)); err != nil {
 		log.Fatal(err)
 	}
 	if err := ioutil.WriteFile(fmt.Sprintf("tmp/%s.png", name), buf, 0o644); err != nil {

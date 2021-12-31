@@ -2,3 +2,4 @@ node_modules/
 tailwindcss/
 .DS_Store
 main
+tmp/

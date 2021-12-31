@@ -1,17 +1,12 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-	"syscall"
 	"time"
 
-	"github.com/chromedp/chromedp"
 	"github.com/gorilla/mux"
 
 	"omoshiroimg/web"
@@ -27,9 +22,7 @@ func main() {
 
 	r := mux.NewRouter().StrictSlash(true)
 	r.Use(loggingMiddleware)
-
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/"))))
-
 	r.HandleFunc("/", handler.IndexPage)
 	r.HandleFunc("/me", handler.SelfIntroduction)
 
@@ -40,7 +33,6 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-
 	log.Fatal(srv.ListenAndServe())
 
 	return
@@ -88,49 +80,4 @@ func loggingMiddleware(next http.Handler) http.Handler {
 		t := t2.Sub(t1)
 		log.Printf("[%s] %s %s", r.Method, r.URL, t.String())
 	})
-}
-
-func ScreenShot(sigCh chan os.Signal) {
-	// create context
-	defer func() {
-		sigCh <- syscall.SIGTERM
-	}()
-	ctx, cancel := chromedp.NewContext(
-		context.Background(),
-		// chromedp.WithDebugf(log.Printf),
-	)
-	defer cancel()
-
-	// capture screenshot of an element
-	var buf []byte
-	//if err := chromedp.Run(ctx, elementScreenshot(`https://pkg.go.dev/`, `img.Homepage-logo`, &buf)); err != nil {
-
-	name := fmt.Sprintf("%s", time.Now())
-	if err := chromedp.Run(ctx, elementScreenshot(`http://localhost:8080`, `div.box`, &buf)); err != nil {
-		log.Fatal(err)
-	}
-	if err := ioutil.WriteFile(fmt.Sprintf("tmp/%s.png", name), buf, 0o644); err != nil {
-		log.Fatal(err)
-	}
-
-	log.Printf("wrote elementScreenshot.png and fullScreenshot.png")
-}
-
-// elementScreenshot takes a screenshot of a specific element.
-func elementScreenshot(urlstr, sel string, res *[]byte) chromedp.Tasks {
-	return chromedp.Tasks{
-		chromedp.Navigate(urlstr),
-		chromedp.Screenshot(sel, res, chromedp.NodeVisible),
-	}
-}
-
-// fullScreenshot takes a screenshot of the entire browser viewport.
-//
-// Note: chromedp.FullScreenshot overrides the device's emulation settings. Use
-// device.Reset to reset the emulation and viewport settings.
-func fullScreenshot(urlstr string, quality int, res *[]byte) chromedp.Tasks {
-	return chromedp.Tasks{
-		chromedp.Navigate(urlstr),
-		chromedp.FullScreenshot(res, quality),
-	}
 }
