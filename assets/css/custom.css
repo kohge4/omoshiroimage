@@ -1,0 +1,13 @@
+.navbar-item {
+    font-family: "Press Start 2P";
+}
+
+.side-bar {
+    display: none,
+
+}
+
+#sortbox:checked ~ #sortboxmenu {
+    /*関節セレクタ: http://zero.css-happylife.com/selectors/general_sibling_combinator.shtml */
+    opacity: 1;
+}
