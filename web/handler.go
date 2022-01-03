@@ -55,6 +55,27 @@ func (app *Handler) SelfIntroduction(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
+	url := "assets/image/glassp.png"
+	name := "koge"
+	title := "テスト奴"
+	text := "おはようございます"
+
+	if err := app.View["fukidashi"].Execute(w, struct {
+		ImageURL string
+		Title    string
+		Text     string
+		Name     string
+	}{
+		ImageURL: url,
+		Title:    title,
+		Text:     text,
+		Name:     name,
+	}); err != nil {
+		log.Printf("failed to execute template: %v", err)
+	}
+}
+
 func responseByJSON(w http.ResponseWriter, status int, data interface{}) {
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(data)

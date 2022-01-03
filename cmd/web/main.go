@@ -17,6 +17,7 @@ func main() {
 	var templates = make(map[string]*template.Template)
 	templates["card"] = loadTemplate("card")
 	templates["selfintroduction"] = loadTemplate("selfintroduction")
+	templates["fukidashi"] = loadTemplate("fukidashi")
 	//infra.NewElasticSearchClient()
 	handler := web.NewHandler(templates)
 
@@ -25,6 +26,7 @@ func main() {
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/"))))
 	r.HandleFunc("/", handler.IndexPage)
 	r.HandleFunc("/me", handler.SelfIntroduction)
+	r.HandleFunc("/fukidashi", handler.Fukidashi)
 
 	srv := &http.Server{
 		Handler: r,
