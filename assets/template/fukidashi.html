@@ -1,11 +1,40 @@
 {{template "header" .}}
 <!-- START ARTICLE FEED -->
 <body>
-    <div class="fukidashi1">
-        <p class="font-serif font-bold">おはようございます。明けましておめでとうございます。よろしくお願いします。
-        </p>
+  <div class="min-h-screen bg-gray-100 flex flex-col justify-center">
+    <div
+      class="
+        relative
+        flex flex-wrap
+        justify-center
+        bg-white
+        relative
+        target
+        rounded-lg
+      "
+    >
+      <div
+        class="relative mx-1 my-auto"
+      >
+        <div class="fukidashi1 shadow-md">
+          <p class="font-serif font-bold">
+            {{ .Text }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="
+          content-img
+          relative
+          max-w-md
+          mx-1
+          my-3
+          py-4
+        "
+      >
+        <img class="h-200px" src="{{ .ImageURL }}" />
+      </div>
     </div>
-    <div>Image 
-    </div>
+  </div>
 </body>
 {{template "footer"}}

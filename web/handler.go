@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -71,6 +72,37 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 		Title:    title,
 		Text:     text,
 		Name:     name,
+	}); err != nil {
+		log.Printf("failed to execute template: %v", err)
+	}
+}
+
+func (app *Handler) HtmlByName(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	url := "assets/image/glassp.png"
+	title := "テスト奴"
+	text := "おはようございます"
+
+	t, err := template.ParseFiles(
+		fmt.Sprintf("assets/template/%s.html", name),
+		"assets/template/_header.html",
+		"assets/template/_footer.html",
+	)
+	if err != nil {
+		log.Fatalf("template error: %v", err)
+	}
+
+	if err != nil {
+		log.Fatalf("template error: %v", err)
+	}
+	if err := t.Execute(w, struct {
+		Text  string
+		URL   string
+		Title string
+	}{
+		Text:  text,
+		Title: title,
+		URL:   url,
 	}); err != nil {
 		log.Printf("failed to execute template: %v", err)
 	}

@@ -17,27 +17,49 @@
 .fukidashi1 {
     position: relative;
     display: inline-block;
-    margin: 1.5em 0;
     padding: 7px 10px;
     min-width: 120px;
     max-width: 100%;
     color: #555;
     font-size: 16px;
-    background: #e0edff;
+    background: white;
+    border: solid 3px #555;
     border-radius: 15px;
+    max-height:300px;
   }
-  
-  .fukidashi1:before {
+
+
+.fukidashi1:before {
     content: "";
     position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -15px;
-    border: 15px solid transparent;
-    border-top: 15px solid #e0edff;
+    top: 50%;
+    right: -24px;
+    margin-top: -12px;
+    border: 12px solid transparent;
+    border-left: 12px solid #FFF;
+    z-index: 2;
+  }
+
+
+.fukidashi1:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    margin-top: -14px;
+    border: 14px solid transparent;
+    border-left: 14px solid #555;
+    z-index: 1;
   }
   
   .fukidashi1 p {
     margin: 0;
-    padding: 0;
+    padding: 20px;
+  }
+
+
+  .target {
+      height: 630px;
+      width: 1200px;
+      margin: 0 auto;
   }
