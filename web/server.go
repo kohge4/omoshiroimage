@@ -15,9 +15,11 @@ func NewServer() *http.Server {
 	templates["card"] = loadTemplate("card")
 	templates["selfintroduction"] = loadTemplate("selfintroduction")
 	templates["fukidashi"] = loadTemplate("fukidashi")
+	templates["image_generator"] = loadTemplate("image_generator")
 	//infra.NewElasticSearchClient()
 	handler := NewHandler(templates)
 
+	// chromedp でだけアクセスる所は制限する
 	r := mux.NewRouter().StrictSlash(true)
 	r.Use(loggingMiddleware)
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/"))))
@@ -26,6 +28,10 @@ func NewServer() *http.Server {
 	r.HandleFunc("/fukidashi", handler.Fukidashi)
 	// dev用
 	r.HandleFunc("/html", handler.HtmlByName)
+
+	// webアプリケーション用
+	r.HandleFunc("/imgen", handler.ImageGenerator)
+	r.HandleFunc("/imgen/exec", handler.ImageGeneratorExec)
 
 	srv := &http.Server{
 		Handler: r,
