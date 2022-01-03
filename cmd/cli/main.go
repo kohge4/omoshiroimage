@@ -39,9 +39,16 @@ func ScreenShot(sigCh chan os.Signal) {
 	defer func() {
 		sigCh <- syscall.SIGTERM
 	}()
+
+	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.WindowSize(1500, 800),
+	)
+	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
+	defer cancel()
+
 	ctx, cancel := chromedp.NewContext(
-		context.Background(),
-		// chromedp.WithDebugf(log.Printf),
+		allocCtx,
+		//chromedp.WithDebugf(log.Printf),
 	)
 	defer cancel()
 
@@ -50,7 +57,7 @@ func ScreenShot(sigCh chan os.Signal) {
 	//if err := chromedp.Run(ctx, elementScreenshot(`https://pkg.go.dev/`, `img.Homepage-logo`, &buf)); err != nil {
 
 	name := fmt.Sprintf("%s", time.Now())
-	if err := chromedp.Run(ctx, elementScreenshot(`http://localhost:8080/me`, `div.target`, &buf)); err != nil {
+	if err := chromedp.Run(ctx, elementScreenshot(`http://localhost:8080/fukidashi`, `div.target`, &buf)); err != nil {
 		log.Fatal(err)
 	}
 	if err := ioutil.WriteFile(fmt.Sprintf("tmp/%s.png", name), buf, 0o644); err != nil {
