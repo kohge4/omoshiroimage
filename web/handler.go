@@ -60,7 +60,7 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 	url := "assets/image/glassp.png"
 	name := "koge"
 	title := "テスト奴"
-	text := "おはようございます"
+	message := r.URL.Query().Get("message")
 
 	if err := app.View["fukidashi"].Execute(w, struct {
 		ImageURL string
@@ -70,7 +70,7 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 	}{
 		ImageURL: url,
 		Title:    title,
-		Text:     text,
+		Text:     message,
 		Name:     name,
 	}); err != nil {
 		log.Printf("failed to execute template: %v", err)
