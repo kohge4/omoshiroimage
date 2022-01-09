@@ -58,12 +58,14 @@ func screenShot(sigCh chan os.Signal, imageName string, text string) {
 	var buf []byte
 	//if err := chromedp.Run(ctx, elementScreenshot(`https://pkg.go.dev/`, `img.Homepage-logo`, &buf)); err != nil {
 
-	url := fmt.Sprintf("http://localhost:8080/fukidashi?message=%s", text)
+	url := fmt.Sprintf("http://localhost:8081/fukidashi?message=%s", text)
 	if err := chromedp.Run(ctx, elementScreenshot(url, `div.target`, &buf)); err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 	if err := ioutil.WriteFile(fmt.Sprintf("tmp/%s.png", imageName), buf, 0o644); err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 
 	log.Printf("wrote elementScreenshot.png and fullScreenshot.png")
