@@ -1,47 +1,121 @@
 {{template "header" .}}
 <!-- START ARTICLE FEED -->
 <body>
-    <section>
-        <div class="bg-gray-100 py-20">
-            <div class="container mx-auto flex flex-col md:flex-row my-6 md:my-24">
-                <div class="flex flex-col w-full lg:w-1/3 p-8">
-                    <p class="text-3xl md:text-3xl my-4 md:leading-snug">マンガみたいな画像を作ることができます!</p>
-                    <p class="text-sm md:text-base leading-snug text-opacity-100">
-                        
-                    </p>
-                    <img class="h-120 rounded-2xl w-full object-cover" src="/assets/image/sample/sample1.png">
-                </div>
-                <div class="flex flex-col w-full lg:w-2/3 justify-center">
-                    <div class="container w-full px-4">
-                        <div class="flex flex-wrap justify-center">
-                            <div class="w-full lg:w-6/12 px-4">
-                                <div
-                                    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
-                                    <div class="flex-auto p-5 lg:p-10">
-                                        <h4 class="text-2xl mb-4 text-black font-semibold">喋らせたいこと!</h4>
-                                        <form id="feedbackForm" action="/imgen/exec" method="POST">
-                                                <div class="relative w-full mb-3">
-                                                    <label class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                            for="message">Message</label><textarea maxlength="300" name="message" id="message" rows="4"
-                            cols="80"
-                            class="border-0 px-3 py-3 bg-gray-300 placeholder-black text-gray-800 rounded text-sm shadow focus:outline-none w-full"
-                            placeholder="" required></textarea>
-                                                </div>
-                                                <div class="text-center mt-6">
-                                                    <button id="feedbackBtn"
-                            class="bg-yellow-300 text-black text-center mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                            type="submit" style="transition: all 0.15s ease 0s;">画像生成
-                          </button>
-                                                </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <section>
+    <div class="bg-gray-100 py-20">
+      <div class="container mx-auto flex flex-col md:flex-row my-6 md:my-24">
+        <div class="flex flex-col w-full lg:w-1/3 p-8">
+          <p class="text-3xl md:text-3xl my-4 md:leading-snug">
+            マンガみたいな画像を作ることができます!
+          </p>
+          <p class="text-sm md:text-base leading-snug text-opacity-100"></p>
+          <img
+            class="h-120 rounded-2xl w-full object-cover"
+            src="/assets/image/sample/sample1.png"
+          />
         </div>
-    </section>
+        <div class="flex flex-col w-full lg:w-2/3 justify-center">
+          <div class="container w-full px-4">
+            <div class="flex flex-wrap justify-center">
+              <div class="w-full lg:w-6/12 px-4">
+                <div
+                  class="
+                    relative
+                    flex flex-col
+                    min-w-0
+                    break-words
+                    w-full
+                    mb-6
+                    shadow-lg
+                    rounded-lg
+                    bg-white
+                  "
+                >
+                  <div class="flex-auto p-5 lg:p-10">
+                    <h4 class="text-2xl mb-4 text-black font-semibold">
+                      喋らせたいこと!
+                    </h4>
+                    <form id="feedbackForm" action="/imgen/exec" method="POST">
+                      <div class="relative w-full mb-3">
+                        <label
+                          class="
+                            block
+                            uppercase
+                            text-gray-700 text-xs
+                            font-bold
+                            mb-2
+                          "
+                          for="message"
+                          >Message</label
+                        ><textarea
+                          maxlength="300"
+                          name="message"
+                          id="message"
+                          rows="4"
+                          cols="80"
+                          class="
+                            border-0
+                            px-3
+                            py-3
+                            bg-gray-300
+                            placeholder-black
+                            text-gray-800
+                            rounded
+                            text-sm
+                            shadow
+                            focus:outline-none
+                            w-full
+                          "
+                          placeholder=""
+                          required
+                        ></textarea>
+                      </div>
+                      <div class="text-center mt-6">
+                        <button
+                          id="feedbackBtn"
+                          class="
+                            bg-yellow-300
+                            text-black text-center
+                            mx-auto
+                            active:bg-yellow-400
+                            text-sm
+                            font-bold
+                            uppercase
+                            px-6
+                            py-3
+                            rounded
+                            shadow
+                            hover:shadow-lg
+                            outline-none
+                            focus:outline-none
+                            mr-1
+                            mb-1
+                          "
+                          type="submit"
+                          style="transition: all 0.15s ease 0s"
+                        >
+                          画像生成
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ if .ImageURL }}
+      <div class="flex flex-col w-full lg:w-2/3 justify-center mx-auto">
+        <div class="container w-full px-4">
+            <img
+            class="h-120 rounded-2xl w-full object-cover"
+            src={{ .ImageURL }}
+            />
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </section>
 </body>
 {{template "footer"}}

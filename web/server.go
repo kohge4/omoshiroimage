@@ -23,7 +23,9 @@ func NewServer() *http.Server {
 	r := mux.NewRouter().StrictSlash(true)
 	r.Use(loggingMiddleware)
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/"))))
-	r.HandleFunc("/", handler.IndexPage)
+	r.PathPrefix("/tmp/").Handler(http.StripPrefix("/tmp/", http.FileServer(http.Dir("tmp/"))))
+
+	r.HandleFunc("/", handler.ImageGenerator)
 	r.HandleFunc("/me", handler.SelfIntroduction)
 	r.HandleFunc("/fukidashi", handler.Fukidashi)
 	// dev用

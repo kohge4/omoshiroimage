@@ -14,7 +14,7 @@ import (
 )
 
 type ImageGenerator interface {
-	GenerateImage()
+	GenerateImage(string) string
 }
 
 type ChromedpImageGenerator struct {
@@ -24,14 +24,19 @@ func NewChromedpImageGenerator() ImageGenerator {
 	return &ChromedpImageGenerator{}
 }
 
-func (g *ChromedpImageGenerator) GenerateImage() {
+func (g *ChromedpImageGenerator) GenerateImage(text string) string {
+
+	name := fmt.Sprintf("%d", time.Now().Unix())
+
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGTERM)
-	go screenShot(sigCh)
+	go screenShot(sigCh, name, text)
 	<-sigCh
+
+	return name
 }
 
-func screenShot(sigCh chan os.Signal) {
+func screenShot(sigCh chan os.Signal, imageName string, text string) {
 	// create context
 	defer func() {
 		sigCh <- syscall.SIGTERM
@@ -53,18 +58,17 @@ func screenShot(sigCh chan os.Signal) {
 	var buf []byte
 	//if err := chromedp.Run(ctx, elementScreenshot(`https://pkg.go.dev/`, `img.Homepage-logo`, &buf)); err != nil {
 
-	name := fmt.Sprintf("%s", time.Now())
-
-	text := "おはようございます、よろしくお願いします。"
 	url := fmt.Sprintf("http://localhost:8080/fukidashi?message=%s", text)
 	if err := chromedp.Run(ctx, elementScreenshot(url, `div.target`, &buf)); err != nil {
 		log.Fatal(err)
 	}
-	if err := ioutil.WriteFile(fmt.Sprintf("tmp/%s.png", name), buf, 0o644); err != nil {
+	if err := ioutil.WriteFile(fmt.Sprintf("tmp/%s.png", imageName), buf, 0o644); err != nil {
 		log.Fatal(err)
 	}
 
 	log.Printf("wrote elementScreenshot.png and fullScreenshot.png")
+
+	return
 }
 
 // elementScreenshot takes a screenshot of a specific element.
