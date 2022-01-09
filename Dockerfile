@@ -14,6 +14,8 @@ RUN go build /go/src/app/cmd/web/main.go
 FROM chromedp/headless-shell:latest
 RUN apt-get update; apt install dumb-init -y
 ENTRYPOINT ["dumb-init", "--"]
-COPY --from=build /go/src/app/main /tmp
+# マルチステージビルド https://matsuand.github.io/docs.docker.jp.onthefly/develop/develop-images/multistage-build/#use-an-external-image-as-a-stage
+COPY --from=build /go/src/app/ /tmp/
+#COPY --from=build /go/src/app/assets/ /tmp/assets
 
 CMD ["/tmp/main"]
