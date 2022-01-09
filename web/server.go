@@ -49,9 +49,9 @@ func NewServer() *http.Server {
 
 func loadTemplate(name string) *template.Template {
 	t, err := template.ParseFiles(
-		"./assets/template/"+name+".html",
-		"./assets/template/_header.html",
-		"./assets/template/_footer.html",
+		"assets/template/"+name+".html",
+		"assets/template/_header.html",
+		"assets/template/_footer.html",
 	)
 	if err != nil {
 		log.Fatalf("template error: %v", err)
