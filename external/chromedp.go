@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"omoshiroimg/external/gcp"
 	"os"
 	"os/signal"
 	"syscall"
@@ -64,6 +65,11 @@ func screenShot(sigCh chan os.Signal, imageName string, text string) {
 		return
 	}
 	if err := ioutil.WriteFile(fmt.Sprintf("tmp/%s.png", imageName), buf, 0o644); err != nil {
+		log.Println(err)
+		return
+	}
+
+	if err := gcp.StreamFileUpload(buf, fmt.Sprintf("tmp/%s.png", imageName)); err != nil {
 		log.Println(err)
 		return
 	}
