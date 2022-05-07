@@ -3,4 +3,5 @@ tailwindcss/
 .DS_Store
 main
 tmp/
+config/secret/
 assets/css/tailwind.css
