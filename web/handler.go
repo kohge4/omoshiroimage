@@ -71,7 +71,7 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 	roomURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s", room)
 	fmt.Println("ルームURL!!!!!")
 	fmt.Println(roomURL)
-	giftURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/assets/img/gift/%s", gift)
+	giftURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/assets/img/gift/%s_m.png", gift)
 
 	if err := app.View["fukidashi"].Execute(w, struct {
 		ImageURL string
