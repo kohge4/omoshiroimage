@@ -61,17 +61,30 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 	title := "テスト奴"
 	message := r.URL.Query().Get("message")
 	name := r.URL.Query().Get("name")
+	room := r.URL.Query().Get("room")
+	event := r.URL.Query().Get("event")
+
+	eventURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s",event)
+	fmt.Println("イベントURL!!!!!")
+	fmt.Println(eventURL)
+	roomURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s", room)
+	fmt.Println("ルームURL!!!!!")
+	fmt.Println(roomURL)
 
 	if err := app.View["fukidashi"].Execute(w, struct {
 		ImageURL string
 		Title    string
 		Text     string
 		Name     string
+		RoomURL string
+		EventURL string
 	}{
 		ImageURL: url,
 		Title:    title,
 		Text:     message,
 		Name:     name,
+		RoomURL: roomURL,
+		EventURL: eventURL,
 	}); err != nil {
 		log.Printf("failed to execute template: %v", err)
 	}

@@ -34,9 +34,15 @@ func (app *Handler) ImageGeneratorExec(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(message)
 	event := r.FormValue("event")
 	name := r.FormValue("name")
+	room := r.FormValue("room")
+	fmt.Println("るーむうううううううう")
+	fmt.Println(room)
+
+	//eventURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s",event)
+	//fmt.Println(eventURL)
 
 	imgen := external.NewChromedpImageGenerator()
-	imgPath := imgen.GenerateImage(event)
+	imgPath := imgen.GenerateImage(message, event, room )
 
 
 	fmt.Println(event)
