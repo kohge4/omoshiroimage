@@ -16,7 +16,6 @@ func (app *Handler) ImageGenerator(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("image") != "" {
 		image = fmt.Sprintf("/tmp/%v.png", r.FormValue("image"))
 	}
-	fmt.Println(image)
 
 	if err := app.View["image_generator"].Execute(w, struct {
 		ImageURL string
@@ -31,23 +30,13 @@ func (app *Handler) ImageGeneratorExec(w http.ResponseWriter, r *http.Request) {
 
 	// https://pkg.go.dev/net/http#Request.FormValue
 	message := r.FormValue("message")
-	fmt.Println(message)
 	event := r.FormValue("event")
-	name := r.FormValue("name")
 	room := r.FormValue("room")
-	fmt.Println("るーむうううううううう")
-	fmt.Println(room)
-
 	//eventURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s",event)
 	//fmt.Println(eventURL)
 
 	imgen := external.NewChromedpImageGenerator()
 	imgPath := imgen.GenerateImage(message, event, room )
-
-
-	fmt.Println(event)
-	fmt.Println(name)
-	fmt.Println(message)
 
 	// TODO リダイレクトして画像保存
 	//ctx := context.WithValue(r.Context(), "img-path", imgPath)

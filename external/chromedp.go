@@ -58,8 +58,6 @@ func screenShot(sigCh chan os.Signal, imageName string, text string, event strin
 	// capture screenshot of an element
 	var buf []byte
 	//if err := chromedp.Run(ctx, elementScreenshot(`https://pkg.go.dev/`, `img.Homepage-logo`, &buf)); err != nil {
-	fmt.Println("ルームチャック")
-	fmt.Println(room)
 	url := fmt.Sprintf("http://localhost:8080/fukidashi?message=%s&event=%s&room=%s", text, event, room)
 	if err := chromedp.Run(ctx, elementScreenshot(url, `div.target`, &buf)); err != nil {
 		log.Println(err)
