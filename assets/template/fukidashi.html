@@ -1,7 +1,9 @@
 {{template "header" .}}
 <!-- START ARTICLE FEED -->
 <body>
-  <div class="min-h-screen bg-gray-100 flex flex-col justify-center">
+  <div
+        class="bg-gray-100 flex flex-col justify-center"
+  >
     <div
       class="
         relative
@@ -12,28 +14,23 @@
         target
         rounded-lg
       "
+      style="height: 400px; width: 400px;position: relative;"
     >
-      <div
-        class="relative mx-1 my-auto"
-      >
-        <div class="fukidashi1 shadow-md">
-          <p class="font-serif font-bold">
-            {{ .Text }}
-          </p>
-        </div>
-      </div>
-      <div
-        class="
-          content-img
-          relative
-          max-w-md
-          mx-1
-          my-3
-          py-4
-        "
-      >
-        <img class="h-200px" src="{{ .ImageURL }}" />
-      </div>
+      <img
+          src="https://image.showroom-cdn.com/showroom-prod/image/room/cover/aa9dcab79220ffdda7cac4934b9df58c39a2c284268a17fbd1a3bb0ad72dbce3_square_s.png?v=1650345025"
+          style="position: absolute;height:100%;"
+      />
+      <img
+          src="https://image.showroom-cdn.com/showroom-prod/image/room/cover/122288ab7fb8257367c7ba64876cff3b4e1eb8a2999d370a6e61b919cccab508_l.jpeg?v=1656472931"
+          style="position: absolute;bottom: 0;left: 0;height:30%;"
+      />
+      <img
+          src="https://image.showroom-cdn.com/showroom-prod/assets/img/gift/2413_s.png?1656400128"
+          style="position: absolute;bottom: 0;right: 0;"
+      />
+      <span style="position: absolute;top: 0;left: 0;font-family: 'Potta One', cursive;font-size: 50px">
+        アイウエオ
+      </span>
     </div>
   </div>
 </body>
