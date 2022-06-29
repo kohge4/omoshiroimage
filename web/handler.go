@@ -58,9 +58,9 @@ func (app *Handler) SelfIntroduction(w http.ResponseWriter, r *http.Request) {
 
 func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 	url := "assets/image/glassp.png"
-	name := "koge"
 	title := "テスト奴"
 	message := r.URL.Query().Get("message")
+	name := r.URL.Query().Get("name")
 
 	if err := app.View["fukidashi"].Execute(w, struct {
 		ImageURL string

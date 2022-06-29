@@ -32,8 +32,16 @@ func (app *Handler) ImageGeneratorExec(w http.ResponseWriter, r *http.Request) {
 	// https://pkg.go.dev/net/http#Request.FormValue
 	message := r.FormValue("message")
 	fmt.Println(message)
+	event := r.FormValue("event")
+	name := r.FormValue("name")
+
 	imgen := external.NewChromedpImageGenerator()
-	imgPath := imgen.GenerateImage(message)
+	imgPath := imgen.GenerateImage(event)
+
+
+	fmt.Println(event)
+	fmt.Println(name)
+	fmt.Println(message)
 
 	// TODO リダイレクトして画像保存
 	//ctx := context.WithValue(r.Context(), "img-path", imgPath)
