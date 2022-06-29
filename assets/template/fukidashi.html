@@ -1,7 +1,9 @@
 {{template "header" .}}
 <!-- START ARTICLE FEED -->
 <body>
-  <div class="min-h-screen bg-gray-100 flex flex-col justify-center">
+  <div
+        class="bg-gray-100 flex flex-col justify-center"
+  >
     <div
       class="
         relative
@@ -12,30 +14,24 @@
         target
         rounded-lg
       "
+      style="height: 400px; width: 400px;position: relative;"
     >
-      <div
-        class="relative mx-1 my-auto"
-      >
-        <div class="fukidashi1 shadow-md">
-          <p class="font-serif font-bold">
-            {{ .Text }}
-          </p>
-        </div>
-      </div>
-      <div
-        class="
-          content-img
-          relative
-          max-w-md
-          mx-1
-          my-3
-          py-4
-        "
-      >
-        <img class="h-200px" src={{ .EventURL }} />
-        <img class="h-200px" src={{ .RoomURL }} />
-        <img class="h-200px" src={{ .GiftURL }} />
-      </div>
+     <img
+          src={{ .RoomURL }}
+          style="position: absolute;height:100%;"
+      />
+      <img
+          src={{ .EventURL }}
+          style="position: absolute;bottom: 0;left: 0;height:30%;"
+      />
+      <img
+          src={{ .GiftURL }}
+          style="position: absolute;bottom: 0;right: 0;"
+      />
+      <span style="position: absolute;top: 0;left: 0;font-family: 'Potta One', cursive;font-size: 50px">
+        {{ .Text }}
+      </span>
+
     </div>
   </div>
 </body>
