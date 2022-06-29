@@ -16,7 +16,7 @@
       "
       style="height: 400px; width: 400px;position: relative;"
     >
-      <img
+     <img
           src={{ .RoomURL }}
           style="position: absolute;height:100%;"
       />
@@ -25,12 +25,13 @@
           style="position: absolute;bottom: 0;left: 0;height:30%;"
       />
       <img
-          src="https://image.showroom-cdn.com/showroom-prod/assets/img/gift/2413_s.png?1656400128"
+          src={{ .GiftURL }}
           style="position: absolute;bottom: 0;right: 0;"
       />
       <span style="position: absolute;top: 0;left: 0;font-family: 'Potta One', cursive;font-size: 50px">
         {{ .Text }}
       </span>
+
     </div>
   </div>
 </body>

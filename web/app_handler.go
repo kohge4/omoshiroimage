@@ -32,11 +32,12 @@ func (app *Handler) ImageGeneratorExec(w http.ResponseWriter, r *http.Request) {
 	message := r.FormValue("message")
 	event := r.FormValue("event")
 	room := r.FormValue("room")
+	gift := r.FormValue("gift")
 	//eventURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s",event)
 	//fmt.Println(eventURL)
 
 	imgen := external.NewChromedpImageGenerator()
-	imgPath := imgen.GenerateImage(message, event, room )
+	imgPath := imgen.GenerateImage(message, event, room, gift )
 
 	// TODO リダイレクトして画像保存
 	//ctx := context.WithValue(r.Context(), "img-path", imgPath)

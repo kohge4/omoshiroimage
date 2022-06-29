@@ -63,6 +63,7 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
 	room := r.URL.Query().Get("room")
 	event := r.URL.Query().Get("event")
+	gift := r.URL.Query().Get("gift")
 
 	eventURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s",event)
 	fmt.Println("イベントURL!!!!!")
@@ -70,6 +71,7 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 	roomURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/image/room/cover/%s", room)
 	fmt.Println("ルームURL!!!!!")
 	fmt.Println(roomURL)
+	giftURL := fmt.Sprintf("https://image.showroom-cdn.com/showroom-prod/assets/img/gift/%s", gift)
 
 	if err := app.View["fukidashi"].Execute(w, struct {
 		ImageURL string
@@ -78,6 +80,7 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 		Name     string
 		RoomURL string
 		EventURL string
+		GiftURL string
 	}{
 		ImageURL: url,
 		Title:    title,
@@ -85,6 +88,7 @@ func (app *Handler) Fukidashi(w http.ResponseWriter, r *http.Request) {
 		Name:     name,
 		RoomURL: roomURL,
 		EventURL: eventURL,
+		GiftURL: giftURL,
 	}); err != nil {
 		log.Printf("failed to execute template: %v", err)
 	}
