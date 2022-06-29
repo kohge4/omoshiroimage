@@ -15,7 +15,7 @@ import (
 )
 
 type ImageGenerator interface {
-	GenerateImage(string,string,string) string
+	GenerateImage(string,string,string, string) string
 }
 
 type ChromedpImageGenerator struct {
@@ -25,19 +25,19 @@ func NewChromedpImageGenerator() ImageGenerator {
 	return &ChromedpImageGenerator{}
 }
 
-func (g *ChromedpImageGenerator) GenerateImage(text string, event string, room string ) string {
+func (g *ChromedpImageGenerator) GenerateImage(text string, event string, room string, gift string ) string {
 
 	name := fmt.Sprintf("%d", time.Now().Unix())
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGTERM)
-	go screenShot(sigCh, name, text, event, room)
+	go screenShot(sigCh, name, text, event, room, gift)
 	<-sigCh
 
 	return name
 }
 
-func screenShot(sigCh chan os.Signal, imageName string, text string, event string, room string ) {
+func screenShot(sigCh chan os.Signal, imageName string, text string, event string, room string, gift string ) {
 	// create context
 	defer func() {
 		sigCh <- syscall.SIGTERM
@@ -58,7 +58,7 @@ func screenShot(sigCh chan os.Signal, imageName string, text string, event strin
 	// capture screenshot of an element
 	var buf []byte
 	//if err := chromedp.Run(ctx, elementScreenshot(`https://pkg.go.dev/`, `img.Homepage-logo`, &buf)); err != nil {
-	url := fmt.Sprintf("http://localhost:8080/fukidashi?message=%s&event=%s&room=%s", text, event, room)
+	url := fmt.Sprintf("http://localhost:8080/fukidashi?message=%s&event=%s&room=%s&gift=%s", text, event, room, gift)
 	if err := chromedp.Run(ctx, elementScreenshot(url, `div.target`, &buf)); err != nil {
 		log.Println(err)
 		return
