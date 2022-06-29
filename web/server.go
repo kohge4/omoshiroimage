@@ -13,7 +13,6 @@ import (
 func NewServer() *http.Server {
 	var templates = make(map[string]*template.Template)
 	templates["card"] = loadTemplate("card")
-	templates["selfintroduction"] = loadTemplate("selfintroduction")
 	templates["fukidashi"] = loadTemplate("fukidashi")
 	templates["image_generator"] = loadTemplate("image_generator")
 	//infra.NewElasticSearchClient()
@@ -26,7 +25,6 @@ func NewServer() *http.Server {
 	r.PathPrefix("/tmp/").Handler(http.StripPrefix("/tmp/", http.FileServer(http.Dir("tmp/"))))
 
 	r.HandleFunc("/", handler.ImageGenerator)
-	r.HandleFunc("/me", handler.SelfIntroduction)
 	r.HandleFunc("/fukidashi", handler.Fukidashi)
 	// dev用
 	r.HandleFunc("/html", handler.HtmlByName)
